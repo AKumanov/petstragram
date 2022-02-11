@@ -34,7 +34,7 @@
                     <!-- First 30 chars from the description -->
                     <p class="card-text">{{ photo.description|truncatechars:30 }}</p>
                     <!-- Button to the Photo Details Page -->
-                    <a href="#" class="btn btn-primary">See details</a>
+                    <a href="{% url 'photo-details' photo.id %}" class="btn btn-primary">See details</a>
                 </div>
             </div>
             <!-- End First Card -->

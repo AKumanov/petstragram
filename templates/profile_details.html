@@ -14,15 +14,23 @@
             </div>
             <div class="d-inline p-2 w-50">
                 <div class="d-flex flex-column">
-                    <h5><u>Name:</u> {{ profile.first_name }} {{ profile.last_name }}</h5>
+                    <h5><u>Name:</u> {{ profile.full_name }} </h5>
                     <!-- If Date of Birth -->
+                    {% if profile.date_of_birth %}
                     <h5><u>Birthdate:</u> {{ profile.date_of_birth }}</h5>
                     <!-- If Email -->
+                    {% endif %}
+                    {% if profile.email %}
                     <h5><u>Email:</u> {{ profile.email}}</h5>
                     <!-- If Gender is Chosen -->
+                    {% endif %}
+                    {% if profile.gender %}
                     <h5><u>Gender:</u> {{ profile.gender }}</h5>
                     <!-- If Description -->
+                    {% endif %}
+                    {% if profile.description %}
                     <h5><u>Description:</u> {{ profile.description}}</h5>
+                    {% endif %}
                 </div>
                 <p class="mt-2">Total Images: {{ number_of_images }}</p>
                 <p class="mt-2">Total Likes: {{ total_likes }}</p>

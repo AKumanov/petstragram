@@ -11,4 +11,6 @@ urlpatterns = [
 
     path('profile/create', views.create_profile, name='create-profile'),
     path('photos/add/', views.add_photo, name='add-photo'),
+
+    path('photo/like/<int:pk>', views.update_likes, name='like pet photo'),
 ]

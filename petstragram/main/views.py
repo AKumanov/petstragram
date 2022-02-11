@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Pet, PetPhoto, Profile
 
 
@@ -42,8 +42,21 @@ def profile(request):
 
 
 def photo_details(request, id):
-    context = {}
+    pet_photo = PetPhoto.objects.prefetch_related('tagged_pets').get(pk=id)
+
+    print(pet_photo)
+    context = {
+        'photo': pet_photo,
+
+    }
     return render(request, 'photo_details.html', context)
+
+
+def update_likes(request, pk):
+    photo = PetPhoto.objects.get(pk=pk)
+    photo.likes += 1
+    photo.save()
+    return redirect('photo-details', pk)
 
 
 def error_page(request):
