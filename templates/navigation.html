@@ -13,7 +13,7 @@
                 <!-- Link to Home Page -->
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
-            {% if request.user.is_authenticated %}
+            {% if profile %}
             <li class="nav-item">
                 <!-- Link to Dashboard Page -->
                 <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
@@ -27,8 +27,8 @@
                 <li class="nav-item">
                 <!-- Link to Profile Page -->
                 <a class="nav-link" href="{% url 'profile' %}">Add Photo</a>
-            </li>
-            </li>
+                </li>
+
             {% endif %}
             <li class="nav-item">
                 <!-- Link to Profile Page -->

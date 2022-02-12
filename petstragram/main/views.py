@@ -1,11 +1,20 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from .forms import CreateProfileForm
 from .models import Pet, PetPhoto, Profile
 
 
 # Create your views here.
+from ..common.tools import get_profile
+
+
 def home(request):
-    context = {}
+    profile = get_profile()
+
+    context = {
+        'profile': profile
+    }
     return render(request, 'home_page.html', context)
 
 
@@ -19,14 +28,13 @@ def dashboard(request):
 
 
 def profile(request):
-    profile = Profile.objects.all()[0]
+    profile = get_profile()
     images = PetPhoto.objects.filter(tagged_pets__user_profile=profile.id)
     total_likes = 0
     for image in images:
         total_likes += image.likes
     number_of_images = len(images)
 
-    profile_images = None
     for image in images:
         if image == profile.id:
             pass
@@ -64,7 +72,16 @@ def error_page(request):
 
 
 def create_profile(request):
-    return render(request, 'create_profile.html')
+    if request.method == 'POST':
+        form = CreateProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    form = CreateProfileForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'profile_create.html', context)
 
 
 def add_photo(request):
