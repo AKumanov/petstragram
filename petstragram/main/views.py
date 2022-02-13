@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import CreateProfileForm
+from .forms import CreateProfileForm, UpdateProfileForm, DeleteProfileForm
 from .models import Pet, PetPhoto, Profile
-
 
 # Create your views here.
 from ..common.tools import get_profile
@@ -71,17 +70,31 @@ def error_page(request):
     return HttpResponse('<h1>Error page</h1>')
 
 
-def create_profile(request):
+def crud_operations_profile(request, form_class, success_url, instance, template_name):
     if request.method == 'POST':
-        form = CreateProfileForm(request.POST)
+        form = form_class(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect('home')
-    form = CreateProfileForm()
+            return redirect(success_url)
+    else:
+        form = form_class(instance=instance)
+
     context = {
         'form': form,
     }
-    return render(request, 'profile_create.html', context)
+    return render(request, template_name, context)
+
+
+def create_profile(request):
+    return crud_operations_profile(request, CreateProfileForm, 'home', Profile(), 'profile_create.html')
+
+
+def update_profile(request):
+    return crud_operations_profile(request, UpdateProfileForm, 'profile', get_profile(), 'profile_edit.html')
+
+
+def delete_profile_page(request):
+    return crud_operations_profile(request, DeleteProfileForm, 'home', get_profile(), 'profile_delete.html')
 
 
 def add_photo(request):

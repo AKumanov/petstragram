@@ -113,6 +113,7 @@ class PetPhoto(models.Model):
     )
     tagged_pets = models.ManyToManyField(
         Pet,
+
         # validate at least 1 pet
     )
     description = models.TextField(
